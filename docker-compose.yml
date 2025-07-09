@@ -1,0 +1,40 @@
+services:
+  postgres_db_sc:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASS}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "${POSTGRES_EXTERNAL_PORT}:${POSTGRES_INTERNAL_PORT}"
+    volumes:
+      - ./postgres-init:/docker-entrypoint-initdb.d
+    networks:
+      - airBnbNetwork
+  pgadmin_sc:
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PG_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PG_PASS}
+    ports:
+      - "${PG_EXTERNAL_PORT}:${PG_INTERNAL_PORT}"
+    depends_on:
+      - postgres_db_sc
+    networks:
+      - airBnbNetwork
+  airbnb-spring-boot-app_sc:
+    build: .
+    depends_on:
+      - postgres_db_sc
+    ports:
+      - "${APP_PORT_EXTERNAL}:${APP_PORT}"
+    networks:
+      - airBnbNetwork
+    env_file:
+      - ${ENV_FILE}
+
+networks:
+  airBnbNetwork:
+    driver: bridge
