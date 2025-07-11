@@ -6,6 +6,7 @@ spring:
   output:
     ansi:
       enabled: ALWAYS
+
   security:
     oauth2:
       client:
@@ -17,15 +18,18 @@ spring:
           google:
             client-id: ${GOOGLE_CLIENT_ID}
             client-secret: ${GOOGLE_CLIENT_SECRET}
-    datasource:
-      url: jdbc:postgresql://${POSTGRES_SERVICE}:${POSTGRES_PORT}/${POSTGRES_DB}?sslmode=require
-      username: ${POSTGRES_USER}
-      password: ${POSTGRES_PASS}
-      driver-class-name: org.postgresql.Driver
+
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_SERVICE}:${POSTGRES_PORT}/${POSTGRES_DB}?sslmode=require
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASS}
+    driver-class-name: org.postgresql.Driver
+
   jpa:
     hibernate:
       ddl-auto: ${DDL_AUTO:create-drop}
     show-sql: true
+
   mail:
     host: ${MAIL_HOST}
     port: ${MAIL_PORT}
@@ -44,9 +48,9 @@ spring:
           starttls:
             enable: true
             required: true
+
 server:
   port: ${APP_PORT:8080}
-
 
 custom:
   redirect-url: ${REDIRECT_URL}
@@ -63,6 +67,5 @@ custom:
     app-email: ${APP_EMAIL}
     app-password: ${APP_PASSWORD}
     app-username: ${APP_USERNAME}
-
   mail:
     enabled: ${MAIL_ENABLE}
