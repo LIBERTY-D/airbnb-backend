@@ -3,65 +3,88 @@ services:
     name: airbnb-backend
     env: docker
     repo: https://github.com/LIBERTY-D/airbnb-backend.git
-    dockerfilePath: ./Dockerfile                    # path to your Dockerfile
-    plan: free                                      # or choose another plan
+    dockerfilePath: ./Dockerfile
+    plan: free
     envVars:
+      # Spring Profile
       - key: ACTIVE_PROFILE
         value: prod
-      - key: GITHUB_CLIENT_ID
-        fromSecret: GITHUB_CLIENT_ID_SECRET
-      - key: GITHUB_CLIENT_SECRET
-        fromSecret: GITHUB_CLIENT_SECRET_SECRET
-      - key: GOOGLE_CLIENT_ID
-        fromSecret: GOOGLE_CLIENT_ID_SECRET
-      - key: GOOGLE_CLIENT_SECRET
-        fromSecret: GOOGLE_CLIENT_SECRET_SECRET
+
+      # Database
       - key: POSTGRES_SERVICE
-        value: your-postgres-host
+        value: airbnb-db
       - key: POSTGRES_PORT
         value: "5432"
       - key: POSTGRES_DB
-        value: airbnb
+        value: ""
       - key: POSTGRES_USER
-        value: airbnb_user
+        value: ""
       - key: POSTGRES_PASS
-        fromSecret: POSTGRES_PASS_SECRET
+        value: ""
+
+      # Server Port
+      - key: APP_PORT
+        value: "8080"
+
+      # JPA / Hibernate
       - key: DDL_AUTO
         value: update
+
+      # Mail Settings
       - key: MAIL_HOST
-        value: smtp.mailprovider.com
+        value: smtp.gmail.com
       - key: MAIL_PORT
         value: "587"
       - key: MAIL_USERNAME
-        fromSecret: MAIL_USERNAME_SECRET
+        value: ""
       - key: MAIL_PASSWORD
-        fromSecret: MAIL_PASSWORD_SECRET
-      - key: APP_PORT
-        value: "8080"
-      - key: REDIRECT_URL
-        value: https://yourapp.com/redirect
-      - key: REDIRECT_VERIFY
-        value: some-verify-token
-      - key: ACCOUNT_CREATED_URL
-        value: https://yourapp.com/account-created
-      - key: PEXEL_KEY
-        fromSecret: PEXEL_KEY_SECRET
-      - key: JWT_EXP_ACCESS_TOKEN
-        value: "3600"
-      - key: JWT_EXP_REFRESH_TOKEN
-        value: "86400"
-      - key: JWT_SECRET
-        fromSecret: JWT_SECRET_SECRET
-      - key: ORIGINS
-        value: https://yourfrontend.com
-      - key: APP_EMAIL
-        fromSecret: APP_EMAIL_SECRET
-      - key: APP_PASSWORD
-        fromSecret: APP_PASSWORD_SECRET
-      - key: APP_USERNAME
-        value: admin
+        value: ""
       - key: MAIL_ENABLE
         value: "true"
+
+      # OAuth: GitHub
+      - key: GITHUB_CLIENT_ID
+        value: ""
+      - key: GITHUB_CLIENT_SECRET
+        value: ""
+
+      # OAuth: Google
+      - key: GOOGLE_CLIENT_ID
+        value: ""
+      - key: GOOGLE_CLIENT_SECRET
+        value: ""
+
+      # JWT
+      - key: JWT_EXP_ACCESS_TOKEN
+        value: "3600000"
+      - key: JWT_EXP_REFRESH_TOKEN
+        value: "8600000"
+      - key: JWT_SECRET
+        value: ""
+
+      # URLs
+      - key: REDIRECT_URL
+        value: https://yourfrontend.com/logged-in
+      - key: REDIRECT_VERIFY
+        value: https://yourfrontend.com/verify
+      - key: ACCOUNT_CREATED_URL
+        value: https://yourbackend.com/api/v1/users/verify?token=
+
+      # Pexel API
+      - key: PEXEL_KEY
+        value: ""
+
+      # CORS
+      - key: ORIGINS
+        value: ""
+
+      # Admin
+      - key: APP_EMAIL
+        value: ""
+      - key: APP_PASSWORD
+        value: ""
+      - key: APP_USERNAME
+        value: supertheuser
 
 databases:
   - name: airbnb-db
