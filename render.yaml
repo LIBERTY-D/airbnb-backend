@@ -2,7 +2,7 @@ services:
   - type: web
     name: airbnb-backend
     env: docker
-    repo: https://github.com/yourusername/yourrepo  # replace with your GitHub repo URL
+    repo: https://github.com/LIBERTY-D/airbnb-backend.git
     dockerfilePath: ./Dockerfile                    # path to your Dockerfile
     plan: free                                      # or choose another plan
     envVars:
