@@ -86,8 +86,3 @@ services:
       - key: APP_USERNAME
         value: supertheuser
 
-databases:
-  - name: airbnb-db
-    databaseName: airbnb
-    user: airbnb_user
-    password: ""
