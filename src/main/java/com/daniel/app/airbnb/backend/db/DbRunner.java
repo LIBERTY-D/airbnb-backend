@@ -14,10 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.Year;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 @Component
@@ -35,17 +32,23 @@ public class DbRunner implements CommandLineRunner {
     public void run(String... args) throws Exception {
         log.info("[SAVING ADMIN]");
         User user = new User();
-        user.setSuperhost(true);
-        user.setRoles(Set.of(Role.ROLE_ADMIN));
-        user.setName(adminEnv.getAppUsername());
-        user.setEmail(adminEnv.getAppEmail());
-        user.setPassword(passwordEncoder.encode(adminEnv.getAppPassword()));
-        user.setProvider(Provider.LOCAL);
-        user.setJoinedYear(Year.now().getValue());
-        user.setVerified(true);
-        userRepository.save(user);
-        log.info("[SAVING AIRBNBS]");
-        airBnbRepository.saveAll(listings(user));
+        Optional<User> userFromDb = userRepository.findUserByEmail(adminEnv.getAppEmail());
+        if(userFromDb.isEmpty()){
+            user.setSuperhost(true);
+            user.setRoles(Set.of(Role.ROLE_ADMIN));
+            user.setName(adminEnv.getAppUsername());
+            user.setEmail(adminEnv.getAppEmail());
+            user.setPassword(passwordEncoder.encode(adminEnv.getAppPassword()));
+            user.setProvider(Provider.LOCAL);
+            user.setJoinedYear(Year.now().getValue());
+            user.setVerified(true);
+            userRepository.save(user);
+            log.info("[SAVING AIRBNBS]");
+            airBnbRepository.saveAll(listings(user));
+        }
+
+
+
 
     }
 
